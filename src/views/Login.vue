@@ -18,6 +18,7 @@
 <script>
   import { requestLogin } from '../api/api';
   //import NProgress from 'nprogress'
+  import jwt_decode from "jwt-decode";
   export default {
     data() {
       return {
@@ -54,14 +55,20 @@
             requestLogin(loginParams).then(data => {
               this.logining = false;
               //NProgress.done();
-              let { msg, code, user } = data;
+	      console.log(data)
+              let { msg, code, token } = data;
               if (code !== 200) {
                 this.$message({
                   message: msg,
                   type: 'error'
                 });
               } else {
-                sessionStorage.setItem('user', JSON.stringify(user));
+		localStorage.setItem('token', token)
+		const decode = jwt_decode(token);
+		console.log(token)
+		localStorage.setItem('user',JSON.stringify(decode))
+//		localStorage.setItem('user', decode)
+		this.$store.dispatch('login')
                 this.$router.push({ path: '/table' });
               }
             });

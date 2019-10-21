@@ -109,7 +109,8 @@
 				this.$confirm('确认退出吗?', '提示', {
 					//type: 'warning'
 				}).then(() => {
-					sessionStorage.removeItem('user');
+				//	sessionStorage.removeItem('user');
+					this.$store.dispatch('logout')
 					_this.$router.push('/login');
 				}).catch(() => {
 
@@ -126,11 +127,13 @@
 			}
 		},
 		mounted() {
-			var user = sessionStorage.getItem('user');
+			var user = this.$store.state.user;
 			if (user) {
-				user = JSON.parse(user);
-				this.sysUserName = user.name || '';
-				this.sysUserAvatar = user.avatar || '';
+			//	user = JSON.parse(user);
+				console.log(user)
+				console.log('xxxxxxxxxxxxxxxxxx')
+				this.sysUserName = user.username || '';
+			//	this.sysUserAvatar = user.avatar || '';
 			}
 
 		}
