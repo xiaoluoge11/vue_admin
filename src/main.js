@@ -11,6 +11,7 @@ import 'font-awesome/css/font-awesome.min.css'
 import axios from 'axios'
 import qs from 'qs'
 import jwt_decode from "jwt-decode"
+import { powerRouter  } from './routes.js';
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -39,22 +40,51 @@ axios.interceptors.request.use(
   }
 );
 
+
 router.beforeEach((to, from, next) => {
-    if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
-        if (store.state.token) {  // 通过vuex state获取当前的token是否存在
-            next();
-        }
-        else {
-            next({
-                path: '/login',
-                query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
-            })
-        }
+  if(store.state.user){ //判断role 是否存在
+    if(store.state.newrouter.length !== 0){
+      next();
+    }else{
+      let newrouter=[];
+      let _role = store.state.user.roles
+	_role.forEach((i)=>{            
+		//['admin','user']
+           powerRouter.forEach((k)=>{
+		   //k.role = ['admin','user']
+		k.role.forEach((j)=>{
+			    if(j==i){
+			newrouter.push(k) 
+			    }
+		   }
+		  ) 
+	  })	
+	})
+      console.log(newrouter)
+     //404的页面再最后加，不然总数访问到的都是404界面
+      newrouter.push({
+	  path: '*',
+	  redirect: '/404'
+      })
+      router.addRoutes(newrouter) //添加动态路由
+      store.dispatch('NewRouter',newrouter).then(res => {
+        next({ ...to })
+      }).catch(() => {
+
+      })
     }
-    else {
-        next();
+  }else{
+    if (['/login'].indexOf(to.path) !== -1) {
+      next()
+    } else {
+      next('/login')
     }
+  }
 })
+
+
+
+
 
 new Vue({
   router,

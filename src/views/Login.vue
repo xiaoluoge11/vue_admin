@@ -52,24 +52,25 @@
             this.logining = true;
             //NProgress.start();
             var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
-            requestLogin(loginParams).then(data => {
-              this.logining = false;
+            requestLogin(loginParams).then(data => { 
               //NProgress.done();
-	      console.log(data)
               let { msg, code, token } = data;
               if (code !== 200) {
                 this.$message({
                   message: msg,
                   type: 'error'
+		 
                 });
+		 this.logining = false;
               } else {
 		localStorage.setItem('token', token)
 		const decode = jwt_decode(token);
-		console.log(token)
+//		console.log(decode)
 		localStorage.setItem('user',JSON.stringify(decode))
 //		localStorage.setItem('user', decode)
 		this.$store.dispatch('login')
-                this.$router.push({ path: '/table' });
+		this.$store.dispatch('CleanRouter')
+                this.$router.push({ path: '/user' });
               }
             });
           } else {

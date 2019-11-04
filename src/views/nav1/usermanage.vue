@@ -31,6 +31,9 @@
 			</el-table-column>
 			<el-table-column prop="addr" label="地址" min-width="180" sortable>
 			</el-table-column>
+			<el-table-column prop="user_role" label="权限" min-width="180" sortable>
+        		</el-table-column>
+
 			<el-table-column label="操作" width="350">
 				<template slot-scope="scope">
 					<el-button size="small" @click="handlerole(scope.$index, scope.row)">绑定</el-button>
@@ -130,7 +133,7 @@
 </template>
 
 <script>
-	import { getUserListPage } from '../../api/api';
+	import { getUserListPage,addUser,removeUser,editUser,getRoleList,editRoleUser } from '../../api/api';
 
 	export default {
 		data() {
@@ -224,6 +227,8 @@
 				}).then(() => {
 					this.listLoading = true;
 					//NProgress.start();
+					console.log('xxxxxxxxxxxx')
+					console.log(row)
 					let para = { id: row.id };
 					removeUser(para.id).then((res) => {
 						this.listLoading = false;
@@ -248,7 +253,7 @@
 				this.addFormVisible = true;
 				this.addForm = {
 					name: '',
-					sex: -1,
+					sex: 1,
 					email: '',	
 					addr: '',
 					avatar: ''
@@ -263,9 +268,9 @@
                         },
 			//获取权限列表，绑定到用户
                          getRoles() {
-                                getAllRoleList().then((res) => {
+                                getRoleList().then((res) => {
                                         console.log(res)
-                                        this.cities = res.data 
+                                        this.cities = res.data.roles 
                              
                           	})
 			  },
@@ -301,7 +306,8 @@
 						this.$confirm('确认提交吗？', '提示', {}).then(() => {
 							this.addLoading = true;
 							//NProgress.start();
-							let para = Object.assign({}, this.addForm);	
+							let para = Object.assign({}, this.addForm);
+							console.log(para)	
 						//	para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
 							addUser(para).then((res) => {
 								this.addLoading = false;

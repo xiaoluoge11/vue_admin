@@ -4,7 +4,8 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 // 创建基本状态
 const state = {
-  user:JSON.parse(localStorage.getItem('user')) || ''  
+  user:JSON.parse(localStorage.getItem('user')) || '',
+  newrouter:  []
 }
 // 创建改变状态的方法
 const mutations = {
@@ -17,6 +18,13 @@ const mutations = {
     state.user = ''
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    newrouter:  [] 
+  },
+  NewRouter(state,newrouter){
+    state.newrouter = newrouter
+  },
+  CleanRouter(state){
+     state.newrouter = []
   }
 }
 // 创建驱动actions可以使得mutations得以启动
@@ -28,8 +36,14 @@ const actions = {
   // 同样来个logout
   logout ({commit}) {
     commit('LOGOUT')
+  },
+   NewRouter({commit},newrouter){
+    commit('NewRouter',newrouter)  
+  },
+   CleanRouter({commit}){
+    commit('CleanRouter')
   }
-}
+ }
 
 export default new Vuex.Store({
   state,

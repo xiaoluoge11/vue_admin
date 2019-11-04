@@ -6,10 +6,18 @@ export const requestLogin = params => { return axios.post(`${base}/devops/api/v1
 
 export const getUserListPage = params => { return axios.get(`${base}/devops/api/v1.0/user`, { params: params }); };
 
-export const removeUser = params => { return axios.get(`${base}/user/remove`, { params: params }); };
+export const addUser = params => { return axios.post(`${base}/devops/api/v1.0/user`, { params: params  });  };
 
-export const batchRemoveUser = params => { return axios.get(`${base}/user/batchremove`, { params: params }); };
+export const removeUser = id => { return axios.delete(`${base}/devops/api/v1.0/user/${id}`);  };
 
-export const editUser = params => { return axios.get(`${base}/user/edit`, { params: params }); };
+export const getRoleList = params => { return axios.get(`${base}/devops/api/v1.0/role`, { params: params  });  };
 
-export const addUser = params => { return axios.get(`${base}/user/add`, { params: params }); };
+export const addRole = params => { return axios.post(`${base}/devops/api/v1.0/role`, { params: params   });   }; 
+
+export const editUser = (id,params) => { return axios.put(`${base}/devops/api/v1.0/user/${id}`, { params: params  });  };
+
+export const removeRole = id => { return axios.delete(`${base}/devops/api/v1.0/role/${id}`);   };
+
+export const editRole = (id,params) => { return axios.put(`${base}/devops/api/v1.0/role/${id}`, { params: params   });   };
+
+export const editRoleUser = (id,params) => { return axios.put(`${base}/devops/api/v1.0/editRoleUser/${id}`, { params: params  });  };
