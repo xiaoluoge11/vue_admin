@@ -8,8 +8,17 @@ import Form from './views/nav1/Form.vue'
 import Page4 from './views/nav2/Page4.vue'
 import Page5 from './views/nav2/Page5.vue'
 import Page6 from './views/nav3/Page6.vue'
+import Cpu   from './views/nav3/Cpu.vue'
+import Memory from './views/nav3/Memory.vue'
 import echarts from './views/charts/echarts.vue'
-
+import Server  from './views/nav2/server.vue'
+import Product from './views/nav2/product.vue'
+import Service from './views/nav2/service.vue'
+import Template from './views/nav2/template.vue'
+import Config_zabbix from './views/nav3/zabbix_config.vue'
+import HostDetail from './views/nav3/HostDetail.vue'
+import zabbix_host from './views/nav3/zabbix_host.vue'
+import network from './views/nav3/network.vue'
 
 let routes = [
     {
@@ -30,41 +39,43 @@ let routes = [
 export default routes;
 
 
-
 export const powerRouter = [
     {
         path: '/',
         component: Home,
-        name: '导航一',
+        name: '用户权限管理',
         iconCls: 'el-icon-message',//图标样式classi
         role:['admin','user'],
         children: [
             { path: '/main', component: Main, name: '主页', hidden: true },
-            { path: '/role', component: Role, name: 'role' },
-            { path: '/form', component: Form, name: 'Form' },
+            { path: '/role', component: Role, name: '权限管理' }, 
             { path: '/user', component: Usermanager, name: '用户管理' },
         ]
     },
     {
         path: '/',
         component: Home,
-        name: '导航二',
+        name: '资产管理',
         iconCls: 'fa fa-id-card-o',
 	role: ['admin'],
         children: [
-            { path: '/page4', component: Page4, name: '页面4' },
-            { path: '/page5', component: Page5, name: '页面5' }
+	    { path: '/Server', component: Server, name: '资产信息' },
+            { path: '/Product', component: Product, name: '业务线' },
+            { path: '/Service', component: Service, name: '服务线' }
         ]
     },
     {
         path: '/',
         component: Home,
-        name: '',
-        iconCls: 'fa fa-address-card',
-        leaf: true,//只有一个节点
+        name: 'zabbix管理',
+        iconCls: 'fa fa-address-card', 
 	role: ['admin'],
-        children: [
-            { path: '/page6', component: Page6, name: '导航三' }
+        children: [ 
+	    { path: '/zabbix', component: Config_zabbix, name: 'zabbix配置'  },
+	    { path: '/zabbixlist', component: zabbix_host, name: '主机列表'   },
+	    { path: '/template', component: Template, name: '模板绑定'   },
+	    { path: '/hostdetail', component: HostDetail, name: 'HostDetail'   },
+	    { path: '/cpu', component: Cpu, name: 'cpu'    },
         ]
     },
     {
