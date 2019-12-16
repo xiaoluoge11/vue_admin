@@ -19,6 +19,8 @@ import Config_zabbix from './views/nav3/zabbix_config.vue'
 import HostDetail from './views/nav3/HostDetail.vue'
 import zabbix_host from './views/nav3/zabbix_host.vue'
 import network from './views/nav3/network.vue'
+import Job from './views/nav4/job.vue'
+import JobList from './views/nav4/joblist.vue'
 
 let routes = [
     {
@@ -74,19 +76,19 @@ export const powerRouter = [
 	    { path: '/zabbix', component: Config_zabbix, name: 'zabbix配置'  },
 	    { path: '/zabbixlist', component: zabbix_host, name: '主机列表'   },
 	    { path: '/template', component: Template, name: '模板绑定'   },
-	    { path: '/hostdetail', component: HostDetail, name: 'HostDetail'   },
-	    { path: '/cpu', component: Cpu, name: 'cpu'    },
+	    { path: '/hostdetail', component: HostDetail, name: 'HostDetail'   }
         ]
     },
-    {
+    {  
         path: '/',
         component: Home,
-        name: 'Charts',
+        name: '工单管理',
         iconCls: 'fa fa-bar-chart',
-	role: ['admin','user'],
+        role: ['admin','user'],
         children: [
-            { path: '/echarts', component: echarts, name: 'echarts' }
-        ]
-    },
+            { path: '/job', component: Job, name: '申请工单' },
+	    { path: '/JobList', component: JobList, name: '工单列表'  }
+        ]   
+    },  
 ];
 

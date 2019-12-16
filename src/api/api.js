@@ -75,3 +75,17 @@ export const addHost_temlpate = (ids,params) => { return axios.post(`${base}/dev
 export const getProduct_Ip = params => { return axios.get(`${base}/devops/api/v1.0/getProduct_Ip`, { params: params     });     };
 
 export const getZabbixList = params => { return axios.get(`${base}/devops/api/v1.0/zabbixlist`, { params: params     });     };
+
+export const CreateMaintenance = params => { return axios.post(`${base}/devops/api/v1.0/maintenance`, { params: params    });    };
+
+export const DeleteMaintenance = id => { return axios.delete(`${base}/devops/api/v1.0/maintenance/${id}`);  };
+
+export const addGongdan = params => { return axios.post(`${base}/devops/api/v1.0/gongdan`, { params: params  });  };
+
+export const getGongdan = params => { return axios.get(`${base}/devops/api/v1.0/gongdan`, { params: params   });   };
+
+export const UpdateGongdan = id => { return axios.put(`${base}/devops/api/v1.0/gongdan/${id}`);   };
+
+export const FinshGongdan = id => { return axios.put(`${base}/devops/api/v1.0/finsh/${id}`);    };
+
+export const BohuiGongdan = (ids,params) => { return axios.post(`${base}/devops/api/v1.0/bohuigongdan`, { params: params,id: ids }) }

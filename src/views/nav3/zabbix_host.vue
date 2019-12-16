@@ -1,22 +1,19 @@
 <template>
 	<section>
 
-		<!--工具条-->
-                <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+		<!--列表-->
+                  <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
                         <el-form :inline="true" :model="filters">
                                 <el-form-item>
-                                        <el-input v-model="filters.name" placeholder="姓名"></el-input>
+                                        <el-input v-model="filters.name" placeholder="主机名"></el-input>
                                 </el-form-item>
                                 <el-form-item>
-                                        <el-button type="primary" v-on:click="checkzbhost">查询</el-button>
+                                        <el-button type="primary" v-on:click="checkzbhost">搜索</el-button>
                                 </el-form-item>
                                 
                         </el-form>
-                </el-col>
+                </el-col> 
 
-
-
-		<!--列表-->
 		<template>
 			<el-table :data="zbhost" highlight-current-row v-loading="loading" style="width: 100%;">
 				<el-table-column type="index">
@@ -43,10 +40,19 @@
                         		</el-button>
 					</template>		 
 				</el-table-column>
+			         <el-table-column prop="maintenance_status" label="维护状态" width="120" sortable>
+                                        <template slot-scope="scope">
+					<el-button v-if="scope.row.maintenance_status == 1" size="small"><i
+					class="el-icon-warning"></i>维护中</el-button>
+					<el-button v-if="scope.row.maintenance_status == 0" size="small" type="success"><i
+					class="el-icon-check"></i>运行中</el-button> 
+                                        </template>                  
+                                </el-table-column>	
                                 <el-table-column label="操作">
                                 <template slot-scope="scope">
+				        <el-button type="info" size="small" @click="CreateMaintenance(scope.$index, scope.row)"><i class="el-icon-video-pause"></i>维护</el-button>
                                         <el-button type="warning" size="small" @click="hostDetail(scope.$index, scope.row)"><i class="el-icon-video-pause"></i>详情</el-button>
-                                        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)"><i class="el-icon-success"></i>恢复</el-button> 
+                                        <el-button type="primary" size="small" @click="DeleteMaintenance(scope.$index, scope.row)"><i class="el-icon-success"></i>恢复</el-button> 
                                         <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
                                 </template>
                         </el-table-column>
@@ -58,7 +64,7 @@
 	</section>
 </template>
 <script>
-	import { getZabbixList } from '../../api/api';
+	import { getZabbixList,CreateMaintenance,DeleteMaintenance } from '../../api/api';
 	//import NProgress from 'nprogress'
 	export default {
 		data() {
@@ -80,7 +86,44 @@
                               hostid: row.hostid, 
                               }
                             })
-                          },	
+                          },
+                        CreateMaintenance: function (index, row){
+				let para = { hostid: row.hostid  };
+				CreateMaintenance(para).then((res) => {
+				console.log(res.data.code)
+				if (res.data.code === 0) {
+					this.addLoading = false; 
+					this.$message({message: '提交成功',
+						type: 'success'
+				});
+			}   
+			else{
+				this.$message({
+				message: res.data.msg,
+				type: 'warning'
+				});			
+			}
+			     this.getzbhost(); 
+			  });
+    			},
+                        DeleteMaintenance: function (index, row){ 
+                                DeleteMaintenance(row.maintenanceid).then((res) => {
+                                console.log(res.data.code)
+                                if (res.data.code === 0) {
+                                        this.addLoading = false; 
+                                        this.$message({message: '提交成功',
+                                                type: 'success'
+                                });
+                        }   
+                        else{
+                                this.$message({
+                                message: res.data.msg,
+                                type: 'warning'
+                                });                     
+                        }
+                           this.getzbhost(); 
+                          });
+                        },
 			getzbhost: function () {
 				let para = {
 					page: this.page,
