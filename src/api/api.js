@@ -89,3 +89,19 @@ export const UpdateGongdan = id => { return axios.put(`${base}/devops/api/v1.0/g
 export const FinshGongdan = id => { return axios.put(`${base}/devops/api/v1.0/finsh/${id}`);    };
 
 export const BohuiGongdan = (ids,params) => { return axios.post(`${base}/devops/api/v1.0/bohuigongdan`, { params: params,id: ids }) }
+
+export const getProject = params => { return axios.get(`${base}/devops/api/v1.0/project`, { params: params  });  };
+
+export const getProject_tags = id => { return axios.get(`${base}/devops/api/v1.0/project_tag/${id}`); };
+
+export const addApply = params => { return axios.post(`${base}/devops/api/v1.0/apply`, { params: params   });   };
+
+export const getApply = params => { return axios.get(`${base}/devops/api/v1.0/apply`, { params: params   });   };
+
+export const UpdateApply_status = params => { return axios.get(`${base}/devops/api/v1.0/applystatus`, { params: params    }); } 
+
+export const ChangStatus = (id,params,active) => { return axios.put(`${base}/devops/api/v1.0/apply/${id}`, { params: params,active: active }) }
+
+export const getHistory = id => { return axios.get(`${base}/devops/api/v1.0/history/${id}`);    };
+
+export const getAlerts = params => { return axios.get(`${base}/devops/api/v1.0/zabbixalert`, { params: params  });  };

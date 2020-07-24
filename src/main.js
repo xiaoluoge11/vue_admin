@@ -62,10 +62,10 @@ router.beforeEach((to, from, next) => {
 	})
       console.log(newrouter)
      //404的页面再最后加，不然总数访问到的都是404界面
-      newrouter.push({
-	  path: '*',
-	  redirect: '/404'
-      })
+    //  newrouter.push({
+  //	  path: '*',
+//	  redirect: '/404'
+  //    })
       router.addRoutes(newrouter) //添加动态路由
       store.dispatch('NewRouter',newrouter).then(res => {
         next({ ...to })

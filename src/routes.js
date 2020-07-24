@@ -21,6 +21,12 @@ import zabbix_host from './views/nav3/zabbix_host.vue'
 import network from './views/nav3/network.vue'
 import Job from './views/nav4/job.vue'
 import JobList from './views/nav4/joblist.vue'
+import Project from './views/project/project.vue'
+import Apply   from './views/project/apply.vue'
+import ApplyList from './views/project/applylist.vue'
+import History from './views/project/history.vue'
+import Alerts  from './views/nav3/zabbixaler.vue'
+import Send_mesage from './views/project/send_message.vue'
 
 let routes = [
     {
@@ -76,9 +82,9 @@ export const powerRouter = [
 	    { path: '/zabbix', component: Config_zabbix, name: 'zabbix配置'  },
 	    { path: '/zabbixlist', component: zabbix_host, name: '主机列表'   },
 	    { path: '/template', component: Template, name: '模板绑定'   },
-	    { path: '/hostdetail', component: HostDetail, name: 'HostDetail'   }
-        ]
-    },
+	    { path: '/hostdetail', component: HostDetail, name: 'HostDetail'   },
+	    { path: '/alertdetail', component: Alerts, name: 'Alerts'    }
+	] },
     {  
         path: '/',
         component: Home,
@@ -87,8 +93,23 @@ export const powerRouter = [
         role: ['admin','user'],
         children: [
             { path: '/job', component: Job, name: '申请工单' },
-	    { path: '/JobList', component: JobList, name: '工单列表'  }
+	    { path: '/JobList', component: JobList, name: '审批列表'  }
         ]   
-    },  
+    },
+	{  
+		        path: '/',
+		        component: Home,
+		        name: '项目管理',
+		        iconCls: 'el-icon-message',
+		        role: ['admin','user'],
+		children: [	
+		        { path: '/Project', component: Project, name: '项目列表'   }, 
+			{ path: '/apply', component: Apply, name: '项目发布'    },
+			{ path: '/applylist', component: ApplyList, name: '发布列表'     },
+			{ path: '/applyhistory', component: History, name: '发布历史'      },
+			{ path: '/send_message', component: Send_mesage, name: '消息发送'       }
+		]   
+		    
+	}, 
 ];
 
